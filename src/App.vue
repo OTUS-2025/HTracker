@@ -9,6 +9,8 @@ import Button from 'primevue/button'
     documentation
   </p>
   <Button label="Submit" />
+  <font-awesome-icon icon="fa-solid fa-notes-medical" />
+  <font-awesome-icon icon="fa-solid fa-suitcase-medical" />
 </template>
 
 <style scoped></style>
