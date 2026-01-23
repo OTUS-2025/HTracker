@@ -1,7 +1,10 @@
 <template>
-  <h2>About</h2>
-  <DatePicker v-model="date" />
+  <div>
+    <Button label="Submit" />
+    <DatePicker v-model="date" />
+  </div>
 </template>
+
 <script setup lang="ts">
 import { reactive } from 'vue'
 

@@ -1,9 +1,14 @@
-import { createRoute } from '@kitbag/router'
+import { createMemoryHistory, createRouter } from 'vue-router'
 
-const Home = { template: '<div>Home</div>' }
-const About = { template: '<div>About</div>' }
+import HomePage from '@/pages/HomePage.vue'
+import AboutPage from '@/pages/AboutPage.vue'
 
-export const routes = [
-  createRoute({ name: 'home', path: '/', component: Home }),
-  createRoute({ name: 'path', path: '/about', component: About }),
-] as const
+const routes = [
+  { path: '/', component: HomePage },
+  { path: '/about', component: AboutPage },
+]
+
+export const router = createRouter({
+  history: createMemoryHistory(),
+  routes,
+})
