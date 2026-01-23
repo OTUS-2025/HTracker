@@ -1,9 +1,21 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
-
+import PrimeVue from 'primevue/config'
+import Material from '@primeuix/themes/material'
 const app = createApp(App)
 
 app.use(createPinia())
+app.use(PrimeVue, {
+  theme: {
+    preset: Material,
+    options: {
+      cssLayer: {
+        name: 'primevue',
+        order: 'theme, base, primevue',
+      },
+    },
+  },
+})
 
 app.mount('#app')
