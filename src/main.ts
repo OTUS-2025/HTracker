@@ -1,20 +1,24 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { createRouter } from '@kitbag/router'
+import { routes } from './router'
 import App from './App.vue'
+
+import './assets/css/style.css'
 import PrimeVue from 'primevue/config'
 import Material from '@primeuix/themes/material'
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faNotesMedical, faTablet, faSuitcaseMedical } from '@fortawesome/free-solid-svg-icons'
+import { useFontawesome } from './plugins/useFontawesome'
+const fa = useFontawesome()
 
 const app = createApp(App)
 
-library.add([faTablet, faNotesMedical, faSuitcaseMedical])
 app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.use(createPinia())
+app.use(createRouter(routes))
 app.use(PrimeVue, {
   theme: {
     preset: Material,

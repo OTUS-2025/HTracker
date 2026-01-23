@@ -1,16 +1,8 @@
-<script setup lang="ts">
-import Button from 'primevue/button'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
-  <Button label="Submit" />
-  <font-awesome-icon icon="fa-solid fa-notes-medical" />
-  <font-awesome-icon icon="fa-solid fa-suitcase-medical" />
+  <h1>Health Tracker <font-awesome-icon icon="fa-solid fa-notes-medical" /></h1>
+  <router-view />
 </template>
 
 <style scoped></style>

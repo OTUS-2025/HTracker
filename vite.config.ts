@@ -11,6 +11,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // Added for using Kitbag Router
+      vue: 'vue/dist/vue.esm-bundler.js', // This line fixes the issue
     },
   },
 })
