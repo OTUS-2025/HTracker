@@ -3,20 +3,17 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 
 import './assets/css/style.css'
-import { usePrimeVue } from './plugins/usePrimeVue'
-
-/* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { useFontawesome } from './plugins/useFontawesome'
 import { router } from './router'
-const fa = useFontawesome()
+
+import Fontawesome from './plugins/Fontawesome'
+import Primevue from './plugins/Primevue'
 
 const app = createApp(App)
 
-app.component('font-awesome-icon', FontAwesomeIcon)
-
 app.use(createPinia())
 app.use(router)
-usePrimeVue(app)
+
+app.use(Fontawesome)
+app.use(Primevue)
 
 app.mount('#app')

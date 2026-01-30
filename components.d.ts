@@ -15,7 +15,14 @@ declare module 'vue' {
     Button: typeof import('primevue/button')['default']
     ButtonsMenu: typeof import('./src/components/ButtonsMenu.vue')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
+    Dialog: typeof import('primevue/dialog')['default']
+    EnterPressure: typeof import('./src/components/EnterData/EnterPressure.vue')['default']
+    HealthCards: typeof import('./src/components/HealthCards.vue')['default']
+    InputNumber: typeof import('primevue/inputnumber')['default']
+    InputText: typeof import('primevue/inputtext')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SplitButton: typeof import('primevue/splitbutton')['default']
+    YandexID: typeof import('./src/components/YandexID.vue')['default']
   }
 }
