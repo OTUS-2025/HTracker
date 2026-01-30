@@ -17,6 +17,7 @@ declare module 'vue' {
     DatePicker: typeof import('primevue/datepicker')['default']
     Dialog: typeof import('primevue/dialog')['default']
     EnterPressure: typeof import('./src/components/EnterData/EnterPressure.vue')['default']
+    EnterPulse: typeof import('./src/components/EnterData/EnterPulse.vue')['default']
     HealthCards: typeof import('./src/components/HealthCards.vue')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']

@@ -1,9 +1,7 @@
 <template>
-  <h2>Home</h2>
-
-  <ButtonsMenu />
+  <HealthCards />
 </template>
 
 <script setup lang="ts">
-import ButtonsMenu from '@/components/ButtonsMenu.vue'
+import HealthCards from '@/components/HealthCards.vue'
 </script>

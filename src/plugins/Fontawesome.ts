@@ -7,6 +7,11 @@ import {
   faPlus,
   faMinus,
   faArrowRightToBracket,
+  faHeartCirclePlus,
+  faHeartPulse,
+  faWaveSquare,
+  faWeightScale,
+  faPersonWalking,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { type App } from 'vue'
@@ -21,6 +26,11 @@ export default {
       faPlus,
       faMinus,
       faArrowRightToBracket,
+      faHeartCirclePlus,
+      faHeartPulse,
+      faWaveSquare,
+      faWeightScale,
+      faPersonWalking,
     ])
     app.component('font-awesome-icon', FontAwesomeIcon)
   },
