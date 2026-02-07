@@ -1,66 +1,64 @@
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4 max-w-6xl mx-auto">
     <div
-      v-for="card in cards"
-      :key="card.id"
+      v-for="(key, ndx) in Object.keys(cards)"
+      :key="ndx"
       class="relative bg-linear-to-br from-amber-200 to-amber-300 rounded-2xl p-6 text-white cursor-pointer transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl overflow-hidden min-h-[200px]"
-      @mouseenter="onCardHover(card.id)"
+      @mouseenter="onCardHover(key)"
       @mouseleave="onCardLeave()"
     >
       <!-- Overlay effect -->
       <div
         class="absolute inset-0 bg-linear-to-br from-white/10 to-white/5 transition-opacity duration-300"
-        :class="hoveredCard === card.id ? 'opacity-100' : 'opacity-0'"
+        :class="hoveredCard === key ? 'opacity-100' : 'opacity-0'"
       ></div>
 
       <!-- Header -->
       <div class="relative z-10 flex items-center gap-4 mb-4">
         <div
           class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-xl transition-all duration-300"
-          :class="hoveredCard === card.id ? 'bg-white/30 scale-110' : ''"
+          :class="hoveredCard === key ? 'bg-white/30 scale-110' : ''"
         >
-          <font-awesome-icon :icon="card.icon" class="text-teal-600" />
+          <font-awesome-icon :icon="cards[key as CardId].icon" class="text-teal-600" />
         </div>
-        <h3 class="text-teal-600 text-xl font-semibold m-0">{{ card.title }}</h3>
+        <h3 class="text-teal-600 text-xl font-semibold m-0">{{ cards[key as CardId].title }}</h3>
       </div>
 
       <!-- Content -->
       <div class="relative z-10 text-gray-600">
-        <p class="text-sm leading-relaxed mb-4">{{ card.description }}</p>
+        <p class="text-sm leading-relaxed mb-4">{{ cards[key as CardId].description }}</p>
 
         <!-- Stats - appear on hover -->
-        <div v-if="hoveredCard === card.id" class="mb-4 animate-slide-in">
+        <div v-if="hoveredCard === key" class="mb-4 animate-slide-in">
           <div class="flex justify-between items-center py-2 border-b border-white/20">
             <span class="text-sm">Сегодня:</span>
-            <span class="font-semibold">{{ card.todayValue }}</span>
+            <span class="font-semibold">{{ cards[key as CardId].todayValue }}</span>
           </div>
           <div class="flex justify-between items-center py-2 border-b border-white/20">
             <span class="text-sm">Неделя:</span>
-            <span class="font-semibold">{{ card.weekValue }}</span>
+            <span class="font-semibold">{{ cards[key as CardId].weekValue }}</span>
           </div>
           <div class="flex justify-between items-center py-2">
             <span class="text-sm">Месяц:</span>
-            <span class="font-semibold">{{ card.monthValue }}</span>
+            <span class="font-semibold">{{ cards[key as CardId].monthValue }}</span>
           </div>
         </div>
 
         <!-- Actions - appear on hover -->
-        <div v-if="hoveredCard === card.id" class="animate-fade-in">
+        <div v-if="hoveredCard === key" class="animate-fade-in">
           <Button
-            :label="card.actionLabel"
+            :label="cards[key as CardId].actionLabel"
             size="small"
-            :severity="card.actionSeverity"
-            @click="onActionClick(card.id)"
+            :severity="cards[key as CardId].actionSeverity"
+            @click="onActionClick(key)"
           />
         </div>
       </div>
     </div>
   </div>
-  <EnterPressure :is-visible="pressureDlgVisible" @close="pressureDlgVisible = false" />
-  <EnterPulse
-    :is-visible="getDlgVisibility(CardId.Pulse)"
-    @close="setDlgVisibility(CardId.Pulse, false)"
-  />
+  <EnterPressure v-model:is-show="cards[CardId.Pressure].actionDlg" />
+  <EnterPulse v-model:is-show="cards[CardId.Pulse].actionDlg" />
+  <EnterWieght v-model:is-show="cards[CardId.Weight].actionDlg" />
 </template>
 
 <script setup lang="ts">
@@ -68,18 +66,16 @@ import { ref, reactive } from 'vue'
 import Button from 'primevue/button'
 import EnterPressure from './EnterData/EnterPressure.vue'
 import EnterPulse from './EnterData/EnterPulse.vue'
-
-const pressureDlgVisible = ref(false)
+import EnterWieght from './EnterData/EnterWieght.vue'
 
 enum CardId {
   Pressure = 'pressure',
   Pulse = 'pulse',
-  Temperature = 'temperature',
   Weight = 'weight',
   Activity = 'activity',
+  // Temperature = 'temperature',
 }
 interface HealthCard {
-  id: CardId
   title: string
   description: string
   icon: string
@@ -93,9 +89,8 @@ interface HealthCard {
 
 const hoveredCard = ref<string | null>(null)
 
-const cards = reactive<HealthCard[]>([
-  {
-    id: CardId.Pressure,
+const cards: Record<CardId, HealthCard> = reactive({
+  [CardId.Pressure]: {
     title: 'Давление',
     description: 'Отслеживайте артериальное давление',
     icon: 'fa-solid fa-heart-pulse',
@@ -106,8 +101,7 @@ const cards = reactive<HealthCard[]>([
     actionSeverity: 'success',
     actionDlg: false,
   },
-  {
-    id: CardId.Pulse,
+  [CardId.Pulse]: {
     title: 'Пульс',
     description: 'Мониторьте частоту сердечных сокращений',
     icon: 'fa-solid fa-wave-square',
@@ -118,8 +112,7 @@ const cards = reactive<HealthCard[]>([
     actionSeverity: 'success',
     actionDlg: false,
   },
-  {
-    id: CardId.Weight,
+  [CardId.Weight]: {
     title: 'Вес',
     description: 'Следите за изменениями веса',
     icon: 'fa-solid fa-weight-scale',
@@ -130,8 +123,7 @@ const cards = reactive<HealthCard[]>([
     actionSeverity: 'success',
     actionDlg: false,
   },
-  {
-    id: CardId.Activity,
+  [CardId.Activity]: {
     title: 'Активность',
     description: 'Записывайте физическую активность',
     icon: 'fa-solid fa-person-walking',
@@ -142,7 +134,7 @@ const cards = reactive<HealthCard[]>([
     actionSeverity: 'success',
     actionDlg: false,
   },
-])
+})
 
 const onCardHover = (cardId: string) => {
   hoveredCard.value = cardId
@@ -156,23 +148,15 @@ const onActionClick = (cardId: string) => {
   console.log(`Action clicked for card: ${cardId}`)
   switch (cardId) {
     case CardId.Pressure:
-      pressureDlgVisible.value = true
+      cards[CardId.Pressure].actionDlg = true
       break
     case CardId.Pulse:
-      setDlgVisibility(CardId.Pulse, true)
+      cards[CardId.Pulse].actionDlg = true
+      break
+    case CardId.Weight:
+      cards[CardId.Weight].actionDlg = true
       break
   }
-}
-
-const setDlgVisibility = (cardId: CardId, isVisible: boolean) => {
-  const card = cards.find((c) => c.id === cardId)
-  if (card) card.actionDlg = isVisible
-}
-
-const getDlgVisibility = (cardId: CardId) => {
-  const card = cards.find((c) => c.id === cardId)
-  if (card) return card.actionDlg
-  return false
 }
 </script>
 

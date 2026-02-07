@@ -9,3 +9,8 @@ export interface Pulse {
   pulse: number
   date: Date
 }
+
+export interface Weight {
+  weight: number
+  date: Date
+}

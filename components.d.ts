@@ -18,6 +18,7 @@ declare module 'vue' {
     Dialog: typeof import('primevue/dialog')['default']
     EnterPressure: typeof import('./src/components/EnterData/EnterPressure.vue')['default']
     EnterPulse: typeof import('./src/components/EnterData/EnterPulse.vue')['default']
+    EnterWieght: typeof import('./src/components/EnterData/EnterWieght.vue')['default']
     FloatLabel: typeof import('primevue/floatlabel')['default']
     Form: typeof import('@primevue/forms/form')['default']
     HealthCards: typeof import('./src/components/HealthCards.vue')['default']

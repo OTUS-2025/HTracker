@@ -1,6 +1,6 @@
 <template>
   <Dialog
-    v-model:visible="visible"
+    v-model:visible="isShow"
     modal
     @hide="cancel"
     header="Enter Pressure"
@@ -101,34 +101,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { reactive } from 'vue'
 import type { Pressure } from '@/types/health-types'
 import NowOrDate from '../common/NowOrDate.vue'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { z } from 'zod'
 import type { FormSubmitEvent } from '@primevue/forms/form'
 
-interface Props {
-  isVisible: boolean
-}
-const props = defineProps<Props>()
-const emit = defineEmits(['close'])
+const isShow = defineModel<boolean>('isShow', { default: false, required: true })
 
-const visible = ref(false)
-
-const enteredPressure = ref<Pressure>({
+const enteredPressure = reactive<Pressure>({
   systolic: 120,
   diastolic: 79,
   pulse: 70,
   date: new Date(),
-} as Pressure)
-
-watch(
-  () => props.isVisible,
-  (newVal: boolean) => {
-    visible.value = newVal
-  },
-)
+})
 
 const resolver = zodResolver(
   z.object({
@@ -146,12 +133,9 @@ const save = (e: FormSubmitEvent) => {
   if (e.valid) {
     // TODO: save pressure data
   }
-
-  visible.value = false
-  emit('close')
+  isShow.value = false
 }
 const cancel = () => {
-  visible.value = false
-  emit('close')
+  isShow.value = false
 }
 </script>
