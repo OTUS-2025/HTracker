@@ -6,18 +6,76 @@
     header="Enter Pressure"
     :style="{ width: '25%' }"
   >
-    <div class="flex flex-row gap-4 mb-4">
-      <div class="flex-auto">
-        <label for="horizontal-buttons" class="font-bold block mb-2"> Systolic </label>
+    <Form
+      v-slot="$form"
+      :initialValues="enteredPressure"
+      :resolver
+      :validateOnValueUpdate="false"
+      :validateOnBlur="true"
+      @submit="save"
+      class="flex flex-col gap-4 w-full"
+    >
+      <div class="flex flex-row gap-4 mb-4">
+        <div class="flex-auto">
+          <label for="horizontal-buttons" class="font-bold block mb-2"> Systolic </label>
+          <InputNumber
+            v-model="enteredPressure.systolic"
+            inputId="horizontal-buttons"
+            showButtons
+            buttonLayout="horizontal"
+            :step="1"
+            suffix=" mm Hg"
+            :min="0"
+            :max="300"
+            fluid
+          >
+            <template #incrementicon>
+              <font-awesome-icon icon="fa-solid fa-plus" />
+            </template>
+            <template #decrementicon>
+              <font-awesome-icon icon="fa-solid fa-minus" />
+            </template>
+          </InputNumber>
+          <Message v-if="$form.systolic?.invalid" severity="error" size="small" variant="simple">
+            {{ $form.systolic.error?.message }}
+          </Message>
+        </div>
+        <div class="flex-auto">
+          <label for="horizontal-buttons" class="font-bold block mb-2"> Diastolic </label>
+          <InputNumber
+            v-model="enteredPressure.diastolic"
+            inputId="horizontal-buttons"
+            showButtons
+            buttonLayout="horizontal"
+            :step="1"
+            suffix=" mm Hg"
+            :min="0"
+            :max="300"
+            fluid
+          >
+            <template #incrementicon>
+              <font-awesome-icon icon="fa-solid fa-plus" />
+            </template>
+            <template #decrementicon>
+              <font-awesome-icon icon="fa-solid fa-minus" />
+            </template>
+          </InputNumber>
+          <Message v-if="$form.diastolic?.invalid" severity="error" size="small" variant="simple">
+            {{ $form.diastolic.error?.message }}
+          </Message>
+        </div>
+      </div>
+      <div class="flex-auto mb-4">
+        <label for="horizontal-buttons" class="font-bold block mb-2"> Pulse </label>
         <InputNumber
-          v-model="input.systolic"
+          v-model="enteredPressure.pulse"
           inputId="horizontal-buttons"
           showButtons
           buttonLayout="horizontal"
           :step="1"
-          suffix=" mm Hg"
+          suffix=" ppm"
           :min="0"
-          :max="300"
+          :max="180"
           fluid
         >
           <template #incrementicon>
@@ -27,60 +85,28 @@
             <font-awesome-icon icon="fa-solid fa-minus" />
           </template>
         </InputNumber>
+        <Message v-if="$form.pulse?.invalid" severity="error" size="small" variant="simple">
+          {{ $form.pulse.error?.message }}
+        </Message>
       </div>
-      <div class="flex-auto">
-        <label for="horizontal-buttons" class="font-bold block mb-2"> Diastolic </label>
-        <InputNumber
-          v-model="input.diastolic"
-          inputId="horizontal-buttons"
-          showButtons
-          buttonLayout="horizontal"
-          :step="1"
-          suffix=" mm Hg"
-          :min="0"
-          :max="300"
-          fluid
-        >
-          <template #incrementicon>
-            <font-awesome-icon icon="fa-solid fa-plus" />
-          </template>
-          <template #decrementicon>
-            <font-awesome-icon icon="fa-solid fa-minus" />
-          </template>
-        </InputNumber>
+      <div class="flex-auto mb-4">
+        <NowOrDate v-model:selectedDate="enteredPressure.date" />
       </div>
-    </div>
-    <div class="flex-auto mb-4">
-      <label for="horizontal-buttons" class="font-bold block mb-2"> Pulse </label>
-      <InputNumber
-        v-model="input.pulse"
-        inputId="horizontal-buttons"
-        showButtons
-        buttonLayout="horizontal"
-        :step="1"
-        suffix=" ppm"
-        :min="0"
-        :max="180"
-        fluid
-      >
-        <template #incrementicon>
-          <font-awesome-icon icon="fa-solid fa-plus" />
-        </template>
-        <template #decrementicon>
-          <font-awesome-icon icon="fa-solid fa-minus" />
-        </template>
-      </InputNumber>
-    </div>
-    <div class="flex justify-end gap-2">
-      <Button type="button" label="Cancel" severity="secondary" @click="cancel"></Button>
-      <Button type="button" label="Save" @click="save"></Button>
-    </div>
+      <div class="flex justify-end gap-2">
+        <Button type="button" label="Cancel" severity="secondary" @click="cancel"></Button>
+        <Button type="submit" label="Save"></Button>
+      </div>
+    </Form>
   </Dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import type { Pressure } from '@/types/pressure'
+import type { Pressure } from '@/types/health-types'
+import NowOrDate from '../common/NowOrDate.vue'
+import { zodResolver } from '@primevue/forms/resolvers/zod'
+import { z } from 'zod'
+import type { FormSubmitEvent } from '@primevue/forms/form'
 
 interface Props {
   isVisible: boolean
@@ -90,11 +116,11 @@ const emit = defineEmits(['close'])
 
 const visible = ref(false)
 
-const input = ref<Pressure>({
+const enteredPressure = ref<Pressure>({
   systolic: 120,
   diastolic: 79,
   pulse: 70,
-  timestamp: Date.now(),
+  date: new Date(),
 } as Pressure)
 
 watch(
@@ -103,7 +129,24 @@ watch(
     visible.value = newVal
   },
 )
-const save = () => {
+
+const resolver = zodResolver(
+  z.object({
+    systolic: z.number({ message: 'Systolic part must be a number' }),
+    diastolic: z.number({ message: 'Diastolic part must be a number' }),
+    pulse: z
+      .number({ message: 'Pulse must be a number' })
+      .gt(0, { message: 'Pulse must be a number more when zero' }),
+    date: z.date().min(new Date('2000-01-01'), { message: 'Date must be after 2000-01-01' }),
+  }),
+)
+
+const save = (e: FormSubmitEvent) => {
+  console.log('🚀 ~ save ~ enteredPressure:', enteredPressure)
+  if (e.valid) {
+    // TODO: save pressure data
+  }
+
   visible.value = false
   emit('close')
 }

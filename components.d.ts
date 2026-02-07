@@ -18,12 +18,17 @@ declare module 'vue' {
     Dialog: typeof import('primevue/dialog')['default']
     EnterPressure: typeof import('./src/components/EnterData/EnterPressure.vue')['default']
     EnterPulse: typeof import('./src/components/EnterData/EnterPulse.vue')['default']
+    FloatLabel: typeof import('primevue/floatlabel')['default']
+    Form: typeof import('@primevue/forms/form')['default']
     HealthCards: typeof import('./src/components/HealthCards.vue')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
+    Message: typeof import('primevue/message')['default']
+    NowOrDate: typeof import('./src/components/common/NowOrDate.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SplitButton: typeof import('primevue/splitbutton')['default']
+    ToggleSwitch: typeof import('primevue/toggleswitch')['default']
     YandexID: typeof import('./src/components/YandexID.vue')['default']
   }
 }
