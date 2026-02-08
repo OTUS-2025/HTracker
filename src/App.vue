@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Toolbar from './components/ToolbarBox.vue'
+</script>
 
 <template>
   <div class="@container flex justify-center my-4">
@@ -6,6 +8,7 @@
       <h1 class="text-3xl text-center font-bold">
         Health Tracker <font-awesome-icon icon="fa-solid fa-notes-medical" />
       </h1>
+      <Toolbar />
       <router-view />
     </div>
   </div>
