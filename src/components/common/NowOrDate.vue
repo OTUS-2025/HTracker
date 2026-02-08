@@ -1,17 +1,16 @@
 <template>
-  <div class="flex flex-row gap-3 mb-3">
+  <div class="flex flex-row items-center gap-4 mb-4">
+    <label>Date</label>
     <ToggleSwitch
-      id="date-kind"
       v-model="feature"
       :default-value="DateKind.Now"
       :true-value="DateKind.Now"
       :false-value="DateKind.Date"
     />
-    <label for="date-kind">{{ DateKindLabel[feature] }}</label>
+    <label>{{ DateKindLabel[feature] }}</label>
   </div>
   <DatePicker
     v-show="feature === DateKind.Date"
-    id="datepicker-24h"
     v-model="selectedDate"
     showTime
     hourFormat="24"

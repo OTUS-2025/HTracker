@@ -59,6 +59,7 @@
   <EnterPressure v-model:is-show="cards[CardId.Pressure].actionDlg" />
   <EnterPulse v-model:is-show="cards[CardId.Pulse].actionDlg" />
   <EnterWieght v-model:is-show="cards[CardId.Weight].actionDlg" />
+  <EnterActivity v-model:is-show="cards[CardId.Activity].actionDlg" />
 </template>
 
 <script setup lang="ts">
@@ -67,13 +68,14 @@ import Button from 'primevue/button'
 import EnterPressure from './EnterData/EnterPressure.vue'
 import EnterPulse from './EnterData/EnterPulse.vue'
 import EnterWieght from './EnterData/EnterWieght.vue'
+import EnterActivity from './EnterData/EnterActivity.vue'
 
 enum CardId {
   Pressure = 'pressure',
   Pulse = 'pulse',
   Weight = 'weight',
   Activity = 'activity',
-  // Temperature = 'temperature',
+  // Temperature </template>
 }
 interface HealthCard {
   title: string
@@ -155,6 +157,9 @@ const onActionClick = (cardId: string) => {
       break
     case CardId.Weight:
       cards[CardId.Weight].actionDlg = true
+      break
+    case CardId.Activity:
+      cards[CardId.Activity].actionDlg = true
       break
   }
 }
