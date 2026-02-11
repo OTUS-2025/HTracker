@@ -1,21 +1,22 @@
 <template>
   <div>
-    <!-- -->
+    <p>Name: {{ user.name }}</p>
+    <p>e-mail: {{ user.email }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import { useDataStore } from '@/stores/useDataStore'
-// import type { User } from '@/types/common-types'
+import type { User } from '@/types/common-types'
+import { userService } from '@/di/UserServiceConnector'
 
-const dataStore = useDataStore()
-
-// const user = reactive({} as User)
+const user = reactive({} as User)
 
 onMounted(async () => {
-  const answer = await dataStore.getUserById(1)
-  console.log('🚀 ~ answer:', answer)
-  // user.id = answer.
+  const answer = await userService.fetchOneById('1')
+  if (typeof answer !== 'boolean') {
+    Object.assign(user, answer)
+  }
+  console.log('🚀 ~ user:', user)
 })
 </script>
