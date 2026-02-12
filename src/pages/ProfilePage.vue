@@ -1,4 +1,5 @@
 <template>
+  <h1>User`s profile</h1>
   <div>
     <p>Name: {{ user.name }}</p>
     <p>e-mail: {{ user.email }}</p>
