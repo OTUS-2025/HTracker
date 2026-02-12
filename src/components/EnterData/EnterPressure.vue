@@ -107,8 +107,11 @@ import NowOrDate from '../common/NowOrDate.vue'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { z } from 'zod'
 import type { FormSubmitEvent } from '@primevue/forms/form'
+import { healthService } from '@/di/HealthServiceConnector'
+import { useMainStore } from '@/stores/useMainStore'
 
 const isShow = defineModel<boolean>('isShow', { default: false, required: true })
+const mainStore = useMainStore()
 
 const enteredPressure = reactive<Pressure>({
   systolic: 120,
@@ -128,10 +131,12 @@ const resolver = zodResolver(
   }),
 )
 
-const save = (e: FormSubmitEvent) => {
-  console.log('🚀 ~ save ~ enteredPressure:', enteredPressure)
+const save = async (e: FormSubmitEvent) => {
+  // console.log('🚀 ~ save ~ enteredPressure:', enteredPressure)
   if (e.valid) {
     // TODO: save pressure data
+    const user = await mainStore.activeUser()
+    healthService.savePressure(enteredPressure, user)
   }
   isShow.value = false
 }
