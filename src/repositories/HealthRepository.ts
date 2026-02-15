@@ -6,4 +6,6 @@ export interface HealthRepository {
   saveWeight(weight: Weight, user: User): Promise<void>
   savePulse(pulse: Pulse, user: User): Promise<void>
   saveActivity(activity: Activity, user: User): Promise<void>
+  avgPressure4Date(user: User, date: Date): Promise<string>
+  avgPressure4Week(user: User, date: Date): Promise<string>
 }

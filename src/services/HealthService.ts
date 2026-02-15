@@ -20,4 +20,12 @@ export class HealthService {
   async saveActivity(activity: Activity, user: User) {
     return await this.healthRepository.saveActivity(activity, user)
   }
+
+  async avgPressure4Date(user: User, date: Date) {
+    return await this.healthRepository.avgPressure4Date(user, date)
+  }
+
+  async avgPressure4Week(user: User, date: Date) {
+    return await this.healthRepository.avgPressure4Week(user, date)
+  }
 }
