@@ -59,7 +59,10 @@ import { z } from 'zod'
 import type { Weight } from '@/types/health-types'
 import NowOrDate from '../common/NowOrDate.vue'
 import type { FormSubmitEvent } from '@primevue/forms/form'
+import { healthService } from '@/di/HealthServiceConnector'
+import { useMainStore } from '@/stores/useMainStore'
 
+const mainStore = useMainStore()
 const isShow = defineModel<boolean>('isShow', { default: false, required: true })
 
 const enteredWeight = reactive<Weight>({
@@ -76,11 +79,11 @@ const resolver = zodResolver(
   }),
 )
 
-const save = (e: FormSubmitEvent) => {
-  // enteredPulse
-  console.log('🚀 ~ save ~ enteredPulse:', enteredWeight)
+const save = async (e: FormSubmitEvent) => {
+  // console.log('🚀 ~ save ~ enteredWeight:', enteredWeight)
   if (e.valid) {
-    // TODO: save pulse data
+    const user = await mainStore.activeUser()
+    healthService.saveWeight(enteredWeight, user)
   }
   isShow.value = false
 }

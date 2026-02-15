@@ -1,5 +1,5 @@
 import { supabase } from '@/utils/supabase'
-import type { Pressure } from '@/types/health-types'
+import type { Pressure, Weight, Pulse, Activity } from '@/types/health-types'
 import type { HealthRepository } from './HealthRepository'
 import type { User } from '@/types/common-types'
 
@@ -16,6 +16,7 @@ export class SupabaseHealthRepository implements HealthRepository {
           systolic: pressure.systolic,
           diastolic: pressure.diastolic,
           pulse: pressure.pulse,
+          hand: pressure.hand,
           fixed_date,
           fixed_time,
         },
@@ -24,6 +25,73 @@ export class SupabaseHealthRepository implements HealthRepository {
 
     if (error) {
       console.error(`savePressure: ${error}`)
+    }
+  }
+
+  async saveWeight(weight: Weight, user: User): Promise<void> {
+    const fixed_date = this.dateFromDate(weight.date)
+    const fixed_time = this.timeFromDate(weight.date)
+    const user_id = user.id
+    const { data, error } = await supabase
+      .from('hd_weight')
+      .insert([
+        {
+          user_id,
+          weight: weight.weight,
+          fixed_date,
+          fixed_time,
+        },
+      ])
+      .select()
+
+    if (error) {
+      console.error(`saveWeight: ${error}`)
+    }
+  }
+
+  async savePulse(pulse: Pulse, user: User): Promise<void> {
+    const fixed_date = this.dateFromDate(pulse.date)
+    const fixed_time = this.timeFromDate(pulse.date)
+    const user_id = user.id
+    const { data, error } = await supabase
+      .from('hd_pulse')
+      .insert([
+        {
+          user_id,
+          pulse: pulse.pulse,
+          fixed_date,
+          fixed_time,
+        },
+      ])
+      .select()
+
+    if (error) {
+      console.error(`savePulse: ${error}`)
+    }
+  }
+
+  async saveActivity(activity: Activity, user: User): Promise<void> {
+    const fixed_date = this.dateFromDate(activity.date)
+    const fixed_time = this.timeFromDate(activity.date)
+    const duration = this.timeFromDate(activity.duration)
+    const user_id = user.id
+    const { data, error } = await supabase
+      .from('hd_activity')
+      .insert([
+        {
+          user_id,
+          name: activity.name,
+          volume: activity.volume,
+          unit: activity.unit,
+          duration,
+          fixed_date,
+          fixed_time,
+        },
+      ])
+      .select()
+
+    if (error) {
+      console.error(`saveActivity: ${error}`)
     }
   }
 

@@ -147,7 +147,7 @@ const onCardLeave = () => {
 }
 
 const onActionClick = (cardId: string) => {
-  console.log(`Action clicked for card: ${cardId}`)
+  // console.log(`Action clicked for card: ${cardId}`)
   switch (cardId) {
     case CardId.Pressure:
       cards[CardId.Pressure].actionDlg = true
