@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AnalyticsCards: typeof import('./src/components/AnalyticsCards.vue')['default']
     Badge: typeof import('primevue/badge')['default']
     Button: typeof import('primevue/button')['default']
     ButtonsMenu: typeof import('./src/components/ButtonsMenu.vue')['default']

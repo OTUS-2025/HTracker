@@ -8,6 +8,7 @@ const routes = [
   { path: '/', name: 'home', component: HomePage },
   { path: '/about', component: AboutPage },
   { path: '/profile', name: 'profile', component: ProfilePage },
+  { path: '/analytiscs', name: 'analytics', component: () => import('@/pages/AnalyticsPage.vue') },
   { path: '/:catchAll(.*)', redirect: '/' },
 ]
 
