@@ -33,6 +33,8 @@ declare module 'vue' {
     Select: typeof import('primevue/select')['default']
     SplitButton: typeof import('primevue/splitbutton')['default']
     ToggleSwitch: typeof import('primevue/toggleswitch')['default']
+    Toolbar: typeof import('primevue/toolbar')['default']
+    ToolbarBox: typeof import('./src/components/ToolbarBox.vue')['default']
     YandexID: typeof import('./src/components/YandexID.vue')['default']
   }
 }

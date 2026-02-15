@@ -15,6 +15,23 @@
       @submit="save"
       class="flex flex-col gap-4 w-full"
     >
+      <div class="flex flex-row items-center gap-4 mb-4">
+        <label for="hand" class="font-bold block"> Hand </label>
+        <ToggleSwitch
+          name="hand"
+          v-model="enteredPressure.hand"
+          :trueValue="Hand.Right"
+          :falseValue="Hand.Left"
+        >
+          <template #handle="{ checked }">
+            <font-awesome-icon v-if="checked" icon="fa-solid fa-hand" flip="horizontal" />
+            <font-awesome-icon v-else icon="fa-solid fa-hand" />
+          </template>
+        </ToggleSwitch>
+        <label for="hand" class="font-bold block">
+          {{ enteredPressure.hand == Hand.Right ? 'Right' : 'Left' }}
+        </label>
+      </div>
       <div class="flex flex-row gap-4 mb-4">
         <div class="flex-auto">
           <label for="horizontal-buttons" class="font-bold block mb-2"> Systolic </label>
@@ -102,18 +119,22 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import type { Pressure } from '@/types/health-types'
+import { type Pressure, Hand } from '@/types/health-types'
 import NowOrDate from '../common/NowOrDate.vue'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { z } from 'zod'
 import type { FormSubmitEvent } from '@primevue/forms/form'
+import { healthService } from '@/di/HealthServiceConnector'
+import { useMainStore } from '@/stores/useMainStore'
 
 const isShow = defineModel<boolean>('isShow', { default: false, required: true })
+const mainStore = useMainStore()
 
 const enteredPressure = reactive<Pressure>({
   systolic: 120,
   diastolic: 79,
   pulse: 70,
+  hand: Hand.Left,
   date: new Date(),
 })
 
@@ -128,10 +149,12 @@ const resolver = zodResolver(
   }),
 )
 
-const save = (e: FormSubmitEvent) => {
-  console.log('🚀 ~ save ~ enteredPressure:', enteredPressure)
+const save = async (e: FormSubmitEvent) => {
+  // console.log('🚀 ~ save ~ enteredPressure:', enteredPressure)
   if (e.valid) {
     // TODO: save pressure data
+    const user = await mainStore.activeUser()
+    healthService.savePressure(enteredPressure, user)
   }
   isShow.value = false
 }

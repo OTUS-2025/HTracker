@@ -1,7 +1,12 @@
+export enum Hand {
+  Left = 'Left',
+  Right = 'Right',
+}
 export interface Pressure {
   systolic: number
   diastolic: number
   pulse: number
+  hand: Hand
   date: Date
 }
 

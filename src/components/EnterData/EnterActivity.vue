@@ -102,6 +102,10 @@ import { z } from 'zod'
 import { ActivityType, type Activity, ActivityUnit } from '@/types/health-types'
 import NowOrDate from '../common/NowOrDate.vue'
 import type { FormSubmitEvent } from '@primevue/forms/form'
+import { healthService } from '@/di/HealthServiceConnector'
+import { useMainStore } from '@/stores/useMainStore'
+
+const mainStore = useMainStore()
 
 const isShow = defineModel<boolean>('isShow', { default: false, required: true })
 
@@ -124,11 +128,11 @@ const resolver = zodResolver(
   }),
 )
 
-const save = (e: FormSubmitEvent) => {
-  // enteredPulse
-  console.log('🚀 ~ save ~ enteredActivity:', enteredActivity)
+const save = async (e: FormSubmitEvent) => {
+  // console.log('🚀 ~ save ~ enteredActivity:', enteredActivity)
   if (e.valid) {
-    // TODO: save pulse data
+    const user = await mainStore.activeUser()
+    healthService.saveActivity(enteredActivity, user)
   }
   isShow.value = false
 }

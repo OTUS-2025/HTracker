@@ -12,6 +12,10 @@ import {
   faWaveSquare,
   faWeightScale,
   faPersonWalking,
+  faIdBadge,
+  faHouseChimneyWindow,
+  faAddressBook,
+  faHand,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { type App } from 'vue'
@@ -31,6 +35,10 @@ export default {
       faWaveSquare,
       faWeightScale,
       faPersonWalking,
+      faIdBadge,
+      faHouseChimneyWindow,
+      faAddressBook,
+      faHand,
     ])
     app.component('font-awesome-icon', FontAwesomeIcon)
   },
