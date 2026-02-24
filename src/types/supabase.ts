@@ -12,6 +12,31 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.1"
   }
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       hd_activity: {
@@ -198,7 +223,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_morning_pressure_avg: {
+        Args: never
+        Returns: {
+          avg_diastolic: number
+          avg_systolic: number
+          fixed_date: string
+          hand: string
+        }[]
+      }
     }
     Enums: {
       ActivityType: "Walking" | "Running" | "Cycling" | "Swimming"
@@ -328,6 +361,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {
       ActivityType: ["Walking", "Running", "Cycling", "Swimming"],

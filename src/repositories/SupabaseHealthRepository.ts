@@ -1,5 +1,6 @@
 import { supabase } from '../utils/supabase'
 import type { Pressure, Weight, Pulse, Activity } from '../types/health-types'
+import type { Pressure4Plot } from '../types/analytics-types'
 import type { HealthRepository } from './HealthRepository'
 import type { User } from '../types/common-types'
 
@@ -162,5 +163,16 @@ export class SupabaseHealthRepository implements HealthRepository {
     const systolic = data.map((item) => item.systolic)
     const diastolic = data.map((item) => item.diastolic)
     return `${this.avgFromArray(systolic)}/${this.avgFromArray(diastolic)} mm Hg`
+  }
+
+  async getPressure4Plot(user: User): Promise<Pressure4Plot[] | string> {
+    const { data, error } = await supabase.rpc('get_morning_pressure_avg')
+    console.log('🚀 ~ SupabaseHealthRepository ~ getPressure4Plot ~ data:', data)
+    if (error) {
+      console.error(`getPressure4Plot: ${error}`)
+      return 'error'
+    }
+
+    return data as Pressure4Plot[]
   }
 }

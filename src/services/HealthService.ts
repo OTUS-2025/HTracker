@@ -28,4 +28,8 @@ export class HealthService {
   async avgPressure4Week(user: User, date: Date) {
     return await this.healthRepository.avgPressure4Week(user, date)
   }
+
+  async getPressure4Plot(user: User) {
+    return await this.healthRepository.getPressure4Plot(user)
+  }
 }
