@@ -1,20 +1,32 @@
 <template>
   <Toolbar>
     <template #start>
-      <Button class="mr-2" severity="secondary" raised rounded @click="toHome">
+      <Button
+        class="mr-2"
+        severity="secondary"
+        raised
+        rounded
+        @click="router.push({ name: 'analytics' })"
+      >
+        <template #icon>
+          <font-awesome-icon icon="fa-solid fa-chart-column" />
+        </template>
+      </Button>
+    </template>
+    <template #center>
+      <Button class="mr-2" raised rounded @click="toHome">
         <template #icon>
           <font-awesome-icon icon="fa-solid fa-house-chimney-window" />
         </template>
       </Button>
     </template>
-    <template #center>
+    <template #end>
       <Button class="mr-2" severity="secondary" raised rounded @click="toProfile">
         <template #icon>
           <font-awesome-icon icon="fa-solid fa-id-badge" />
         </template>
       </Button>
     </template>
-    <template #end></template>
   </Toolbar>
 </template>
 

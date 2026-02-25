@@ -63,12 +63,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Button from 'primevue/button'
 import EnterPressure from './EnterData/EnterPressure.vue'
 import EnterPulse from './EnterData/EnterPulse.vue'
 import EnterWieght from './EnterData/EnterWieght.vue'
 import EnterActivity from './EnterData/EnterActivity.vue'
+import { healthService } from '@/di/HealthServiceConnector'
+import { useMainStore } from '@/stores/useMainStore'
+
+const mainStore = useMainStore()
 
 enum CardId {
   Pressure = 'pressure',
@@ -96,9 +100,9 @@ const cards: Record<CardId, HealthCard> = reactive({
     title: 'Давление',
     description: 'Отслеживайте артериальное давление',
     icon: 'fa-solid fa-heart-pulse',
-    todayValue: '120/80',
-    weekValue: '118/78',
-    monthValue: '122/82',
+    todayValue: '120/80 [m]',
+    weekValue: '118/78 [m]',
+    monthValue: '122/82 [m]',
     actionLabel: 'Добавить',
     actionSeverity: 'success',
     actionDlg: false,
@@ -107,9 +111,9 @@ const cards: Record<CardId, HealthCard> = reactive({
     title: 'Пульс',
     description: 'Мониторьте частоту сердечных сокращений',
     icon: 'fa-solid fa-wave-square',
-    todayValue: '72 уд/мин',
-    weekValue: '70 уд/мин',
-    monthValue: '75 уд/мин',
+    todayValue: '72 уд/мин [m]',
+    weekValue: '70 уд/мин [m]',
+    monthValue: '75 уд/мин [m]',
     actionLabel: 'Измерить',
     actionSeverity: 'success',
     actionDlg: false,
@@ -118,9 +122,9 @@ const cards: Record<CardId, HealthCard> = reactive({
     title: 'Вес',
     description: 'Следите за изменениями веса',
     icon: 'fa-solid fa-weight-scale',
-    todayValue: '70.5 кг',
-    weekValue: '70.2 кг',
-    monthValue: '71.0 кг',
+    todayValue: '70.5 кг [m]',
+    weekValue: '70.2 кг [m]',
+    monthValue: '71.0 кг [m]',
     actionLabel: 'Взвеcиться',
     actionSeverity: 'success',
     actionDlg: false,
@@ -129,9 +133,9 @@ const cards: Record<CardId, HealthCard> = reactive({
     title: 'Активность',
     description: 'Записывайте физическую активность',
     icon: 'fa-solid fa-person-walking',
-    todayValue: '8500 шагов',
-    weekValue: '52000 шагов',
-    monthValue: '210000 шагов',
+    todayValue: '8500 шагов [m]',
+    weekValue: '52000 шагов [m]',
+    monthValue: '210000 шагов [m]',
     actionLabel: 'Записать',
     actionSeverity: 'success',
     actionDlg: false,
@@ -163,6 +167,13 @@ const onActionClick = (cardId: string) => {
       break
   }
 }
+
+onMounted(async () => {
+  const user = await mainStore.activeUser()
+  const today = new Date()
+  cards[CardId.Pressure].todayValue = await healthService.avgPressure4Date(user, today)
+  cards[CardId.Pressure].weekValue = await healthService.avgPressure4Week(user, today)
+})
 </script>
 
 <style scoped>

@@ -16,6 +16,7 @@ import {
   faHouseChimneyWindow,
   faAddressBook,
   faHand,
+  faChartColumn,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { type App } from 'vue'
@@ -39,6 +40,7 @@ export default {
       faHouseChimneyWindow,
       faAddressBook,
       faHand,
+      faChartColumn,
     ])
     app.component('font-awesome-icon', FontAwesomeIcon)
   },

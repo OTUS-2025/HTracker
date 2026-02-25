@@ -11,9 +11,12 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AnalyticsCards: typeof import('./src/components/AnalyticsCards.vue')['default']
     Badge: typeof import('primevue/badge')['default']
     Button: typeof import('primevue/button')['default']
     ButtonsMenu: typeof import('./src/components/ButtonsMenu.vue')['default']
+    Card: typeof import('primevue/card')['default']
+    Chart: typeof import('primevue/chart')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
     Dialog: typeof import('primevue/dialog')['default']
     Dropdown: typeof import('primevue/dropdown')['default']
@@ -28,6 +31,8 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     Message: typeof import('primevue/message')['default']
     NowOrDate: typeof import('./src/components/common/NowOrDate.vue')['default']
+    PlotPressure: typeof import('./src/components/PlotData/PlotPressure.vue')['default']
+    PlotPulse: typeof import('./src/components/PlotData/PlotPulse.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
